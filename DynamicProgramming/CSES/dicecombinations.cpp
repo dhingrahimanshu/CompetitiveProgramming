@@ -10,6 +10,9 @@ int const MOD = 1e9 +7;
 	Transition = dp[i]= dp[i-1] + dp[i-2]+....+dp[i-6];
 	Base Case = dp[0]=1 = number of ways to construct sum 0 is 1.(Choose Nothing)
 	Final Subproblem = dp[n] = number of possible ways to construct sum N using numbers between 1 and 6 (inclusive)
+	
+	TC = O(N)
+	SC = O(N);
 
 */
 
