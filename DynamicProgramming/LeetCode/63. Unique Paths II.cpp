@@ -11,7 +11,7 @@ public:
         if(grid[i][j]==1){
             return 0;
         }
-        return dp[i][j] = (dp[i][j]==-1)?helper(i-1 , j , grid) + helper(i , j-1 ,grid):dp[i][j];
+        return dp[i][j]  = (dp[i][j]==-1)?helper(i-1 , j , grid) + helper(i , j-1 ,grid):dp[i][j];
 
     }
     int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid) {
