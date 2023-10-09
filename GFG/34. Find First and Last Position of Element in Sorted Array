@@ -1,0 +1,16 @@
+class Solution {
+public:
+    vector<int> searchRange(vector<int>& nums, int target) {
+        vector<int> ans;
+
+
+        int a = (upper_bound(nums.begin() ,nums.end() , target) - nums.begin()) -1;
+        int b = (upper_bound(nums.begin() , nums.end() , target-1) - nums.begin());
+
+        if(a<b)return {-1 , -1};
+        ans.push_back(b);
+        ans.push_back(a);
+
+        return ans;
+    }
+}
