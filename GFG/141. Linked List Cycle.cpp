@@ -6,7 +6,6 @@ public:
         ListNode *fast = head;
         
         do{
-            
             fast=fast->next->next;
             slow = slow->next;
         }while(fast!=NULL && fast->next!=NULL && fast!=slow);
