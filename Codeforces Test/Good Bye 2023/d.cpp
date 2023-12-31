@@ -100,40 +100,39 @@ void usaco(string s){
 
 /*--------------------------------------------------------------------------------------------------------------------------*/
 
-int check(ll a){
-	if(a==0)return 0;
-	return 1 + check(a/10);
+vector<vector<string>> dp(100);
+
+void precompute(){
+	dp[1] = {"1"};
+	dp[3] = { "961" , "196" , "169"};
+
+	for(int i = 5;i<=99;i+=2){
+		for(int j =0 ;j<sz(dp[i-2]);j++){
+			dp[i].push_back(dp[i-2][j] + "00");
+		}
+		string temp;
+
+		for(int j =0 ;j<i-2;j++){
+			if(dp[i-2].back()[j]!='0'){
+				temp+=dp[i-2].back()[j];
+			}
+			temp +='0';
+		}
+		temp.pop_back();
+		string temp2 = temp;
+		reverse(all(temp2));
+		dp[i].pb(temp2);
+		dp[i].pb(temp);
+	}
+
 }
 
 
 void solve() {
-    map < vector<int> , int> uf;
-	for(ll i = 10;i<=10000;i++){
-		ll temp = i*1ll*i;
-        
-        if(check(temp)>5)break;
-		if(check(temp)==5){
-			ll uf2 = temp;
-            vector<int> arr;
-            while(temp){
-                arr.push_back(temp%10);
-                temp/=10;
-            }
-            sort(all(arr));
-            vector<int> a = { 0 , 0 ,1 , 6 , 9};
-            if(arr == a){
-                cout << uf2 <<endl;
-                // cout << i <<endl;
-            }
-            uf[arr]++;
-		}
+	int n; cin>>n;
+	for(auto &it : dp[n]){
+		cout << it <<endl;
 	}
-
-    for(auto & it : uf){
-        if(it.second >=7){
-            print(it.first);
-        }
-    }
 }
 
 
@@ -145,6 +144,7 @@ int main() {
     fastio();
     auto start1 = high_resolution_clock::now();
     int t =1;
+    precompute();
      cin>>t;
     while(t--){
         solve();
