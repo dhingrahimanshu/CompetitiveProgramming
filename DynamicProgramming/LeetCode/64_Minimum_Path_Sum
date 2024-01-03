@@ -1,0 +1,20 @@
+class Solution {
+public:
+    int dp[201][201];
+    int helper(int i , int j , vector<vector<int>> &grid){
+        if(i<0 || j<0){
+            return 1e8;
+        }
+        if(i==0 && j==0){
+            return grid[i][j];
+        }
+        if(dp[i][j]!=-1){
+            return dp[i][j];
+        }
+        return dp[i][j] = grid[i][j] +  min(helper(i-1 , j , grid)  , helper(i , j-1 , grid));
+    }
+    int minPathSum(vector<vector<int>>& grid) {
+       memset(dp , -1 , sizeof dp);
+       return helper((int)grid.size()-1 , (int) grid[0].size()-1 , grid);
+    }
+};
