@@ -1,0 +1,78 @@
+typedef long long ll;
+class Solution {
+public:
+
+    ll dp[1001][1001];
+    vector<long long> factorial;
+    const int MOD = 1e9 + 7;
+
+    vector<long long> computeFactorials() {
+    int n = 1000;
+    factorial[0] = 1;
+    for (int i = 1; i <= n; ++i) {
+        factorial[i] = (factorial[i - 1] * i) % MOD;
+    }
+    return factorial;
+}
+
+// Function to compute modular inverse of x % mod
+long long modInverse(long long x) {
+    long long result = 1, power = MOD - 2; // Fermat's Little Theorem
+    while (power) {
+        if (power % 2) {
+            result = (result * x) % MOD;
+        }
+        x = (x * x) % MOD;
+        power /= 2;
+    }
+    return result;
+}
+
+// Function to compute nCr % mod
+long long nCr(int n, int r, const vector<long long>& factorial) {
+    if (r > n) return 0; // if r is greater than n
+    long long numerator = factorial[n];
+    long long denominator = (factorial[r] * factorial[n - r]) % MOD;
+    return (numerator * modInverse(denominator)) % MOD;
+}
+
+    long long modularExponentiation(long long x, long long y, long long mod) {
+    long long result = 1;
+    x = x % mod; // Take mod of x to avoid overflow
+    
+    while (y > 0) {
+        // If y is odd, multiply x with result
+        if (y % 2 == 1) {
+            result = (result * x) % mod;
+        }
+        // y must be even now
+        y = y >> 1; // Equivalent to y / 2
+        x = (x * x) % mod; // Square x
+    }
+    
+    return result;
+}
+
+    ll helper(int level, int filled, int n,int x, int y) {
+        if (level == n) {
+            return modularExponentiation(y,filled,MOD);
+        }
+        if(dp[level][filled] !=  -1)return dp[level][filled];
+        
+        if (filled == x) {
+            return dp[level][filled] = (x%MOD*1ll*helper(level+1,filled,n,x,y)%MOD)%MOD;
+        }
+        return dp[level][filled] = (filled%MOD*1ll*helper(level+1,filled,n,x,y)%MOD + (x-filled)%MOD *1ll * helper(level+1,filled + 1,n,x,y)%MOD)%MOD;
+    }
+
+    int numberOfWays(int n, int x, int y) {
+        memset(dp, -1, sizeof dp);
+        // factorial = vector<ll>(1001);
+        // computeFactorials();
+
+        int ans =  helper(0,0,n,x,y);
+
+        return ans;
+
+    }
+};
