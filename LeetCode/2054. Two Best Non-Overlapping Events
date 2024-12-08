@@ -1,0 +1,32 @@
+class Solution {
+public:
+    int maxTwoEvents(vector<vector<int>>& events) {
+        multiset <int> mset;
+
+        int ans = 0;
+
+        vector <vector<int>> sweep;
+
+        for (auto &it: events) {
+            sweep.push_back({it[0], 0, it[2]});
+            sweep.push_back({it[1], 1, it[2]});
+            mset.insert(it[2]);
+        }
+
+        sort(sweep.begin(), sweep.end());
+
+        for (auto &it: sweep) {
+            if (it[1]) {
+                int temp = it[2];
+                if (mset.size()) {
+                    temp += (*mset.rbegin());
+                }
+                ans = max(ans, temp);
+            } else {
+                mset.erase(mset.find(it[2]));
+            }
+        }
+
+        return ans;
+    }
+};
